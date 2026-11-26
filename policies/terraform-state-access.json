@@ -1,0 +1,41 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListStateBucket",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::softsilicon-tfstate-263051786225-eu-west-1",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["dev/*", "prod/*"]
+        }
+      }
+    },
+    {
+      "Sid": "ReadWriteTerraformState",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::softsilicon-tfstate-263051786225-eu-west-1/dev/terraform.tfstate",
+        "arn:aws:s3:::softsilicon-tfstate-263051786225-eu-west-1/prod/terraform.tfstate"
+      ]
+    },
+    {
+      "Sid": "ManageStateLocks",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::softsilicon-tfstate-263051786225-eu-west-1/dev/terraform.tfstate.tflock",
+        "arn:aws:s3:::softsilicon-tfstate-263051786225-eu-west-1/prod/terraform.tfstate.tflock"
+      ]
+    }
+  ]
+}
